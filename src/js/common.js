@@ -4,6 +4,7 @@
  * */
 var HIDDEN_SCROLL = Modernizr.hiddenscroll;
 var NO_HIDDEN_SCROLL = !HIDDEN_SCROLL;
+var $ = jQuery;
 
 /**
  * !Add touchscreen classes
@@ -119,7 +120,7 @@ $(document).ready(function () {
   addTouchClasses();
   formElementState();
   customSelect();
-  objectFitImages(); // object-fit-images initial
+  objectFitImages(); // fit images (cover, contain) in container
 
   formValidation();
 });
