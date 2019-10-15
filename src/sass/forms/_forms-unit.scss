@@ -1,0 +1,42 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+// Form unit
+// ====================================================
+
+.form-unit {
+  position: relative;
+  margin-bottom: $form-bottom-space;
+
+  // ------ mob -----------------------------------------
+  @include media($form-media--mob) {
+    margin-bottom: $form-bottom-space--mob;
+  }
+
+  // Нижние отступы у элементов форм необходимо обнулить
+  .form-def, .form-radiocheck, .select2 {
+    margin-bottom: 0;
+  }
+
+  // Form validate feedback
+  // ----------------------------------------------------
+  .error-feedback,
+  .success-feedback {
+    margin-top: 0;
+    margin-bottom: -#{$validate-feedback-height};
+  }
+
+  // Select has custom arrow
+  // ----------------------------------------------------
+  select.form-def.has-arrow {
+    & + .select-arrow {
+      margin-top: -#{$select-height};
+
+      // ------ mob -----------------------------------------
+      @include media($form-media--mob) {
+        margin-top: -#{$select-height--mob};
+      }
+    }
+  }
+}

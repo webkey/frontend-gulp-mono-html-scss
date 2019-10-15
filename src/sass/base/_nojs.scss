@@ -1,0 +1,17 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+/* no js warning */
+.no-js-warning {
+  position: fixed;
+  width: 100%;
+  z-index: 99999;
+  border: 2px solid #f00;
+  color: #f00;
+  background: #fff;
+  padding: 5px 20px;
+  font-size: 18px;
+}
+
+/* no js warning end */

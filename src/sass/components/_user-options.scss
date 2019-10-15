@@ -1,0 +1,254 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+/* user options */
+$uo-item-size: 4.3rem 5.4rem;
+
+// height min-width
+$uo-space: 3rem;
+$uo-icon-size: 1.6rem;
+$uo-border-radius: 0 0 7px 7px;
+
+.user-options {
+  position: relative;
+  display: flex;
+  border-radius: $uo-border-radius;
+  background-color: white;
+  box-shadow: 0 0 1px rgba(black, 0.15);
+}
+
+.user-options__item {
+  position: relative;
+  height: nth($uo-item-size, 1);
+  min-width: nth($uo-item-size, 2);
+
+  // for ie 9
+  .no-flexwrap & {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  &::before, &::after {
+    $size: 1.8rem 0.2rem;
+
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    height: nth($size, 1);
+    width: round-float(nth($size, 2) / 2, 1);
+    margin: -#{round-float(nth($size, 1) / 2, 1)} 0;
+    background-color: #979797;
+    opacity: 0.2;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+
+  &:first-child::before,
+  &:last-child::after {
+    display: none;
+  }
+
+  & > a, & > div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 5px round($uo-space / 2);
+    color: #131313;
+    text-decoration: none;
+    text-align: center;
+
+    // убрать подсветку при клике на тачскринах
+    .touchevents & {
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    // tooltip
+    &[data-title]::before {
+      content: attr(data-title);
+      display: block;
+      min-width: 100%;
+      padding: 0.4rem 0.8rem;
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 2px;
+
+      @include font-size(1.2rem, 2rem);
+
+      text-align: center;
+      letter-spacing: normal;
+      white-space: nowrap;
+      z-index: 2;
+
+      //color: white
+      color: $text-color;
+
+      @include antialiased;
+
+      opacity: 0;
+      visibility: hidden;
+
+      $translate: 0, -2px;
+
+      transform: translate($translate);
+      transform: translate3d($translate, 0);
+
+      //background-color: $base-color
+      background-color: $bg-color;
+      box-shadow: 0 2px 5px rgba(black, 0.15);
+      border-radius: 2px;
+
+      // transition
+      $prop: transform, opacity, visibility;
+
+      will-change: $prop;
+      transition: {
+        property: $prop;
+        delay: 0s;
+        duration: $animation-speed;
+        timing-function: ease-in-out;
+      };
+    }
+
+    // icon
+    svg {
+      display: inline-block;
+      vertical-align: middle;
+
+      @include size($uo-icon-size);
+
+      & ~ span {
+        padding-left: 12px;
+
+        // скрыть текст для мобил
+        @include media("<mob") {
+          display: none;
+        }
+      }
+
+      & ~ span.hide-text {
+        padding-left: 0;
+      }
+    }
+
+    path {
+      fill: $base-color;
+    }
+
+    // text
+    & > span {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 1.1rem;
+      line-height: 1.3rem;
+      letter-spacing: normal;
+      text-align: left;
+    }
+
+    // counter
+    .counter {
+      display: block;
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      background-color: #e61f1f;
+
+      $size: 1rem;
+
+      width: $size;
+      height: $size;
+      margin: (-0.8rem) -1.5rem;
+      padding: 0.1rem 0 0 0.1rem;
+      font-style: normal;
+      font-size: 0.9rem;
+      line-height: $size;
+      text-align: center;
+      color: white;
+      border-radius: round-float($size / 2, 1);
+      z-index: 10;
+    }
+  }
+
+  &:first-child {
+    & > a, & > div {
+      border-bottom-left-radius: nth($uo-border-radius, 4);
+    }
+  }
+
+  &:last-child {
+    & > a, & > div {
+      border-bottom-right-radius: nth($uo-border-radius, 3);
+    }
+  }
+
+  & > div {
+    cursor: default;
+  }
+
+  // tooltip align right for last item
+  &:last-child {
+    & > a, & > div {
+      // tooltip
+      &[data-title]::before {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
+
+  // hover
+  & > a, & > div {
+    // tooltip
+    .no-touchevents &[data-title]:hover {
+      &::before {
+        transition-delay: 0.6s;
+        opacity: 1;
+        visibility: visible;
+
+        $translate: 0, 0;
+
+        transform: translate($translate);
+        transform: translate3d($translate, 0);
+      }
+    }
+  }
+
+  & > a {
+    // transition
+    $prop: color, box-shadow, background-color;
+
+    transition: {
+      property: $prop;
+      duration: $animation-speed;
+      timing-function: ease-in-out;
+    };
+
+    path {
+      // transition
+      $prop: fill;
+
+      transition: {
+        property: $prop;
+        duration: $animation-speed;
+        timing-function: ease-in-out;
+      };
+    }
+
+    &:hover {
+      background-color: $bg-color;
+    }
+  }
+}
+
+/* user options */

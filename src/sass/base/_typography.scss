@@ -1,0 +1,499 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+// Выделение текста
+// ----------------------------------------------------
+body {
+  *::selection {
+    background-color: $base-color;
+    color: lighten(invert($base-color), 30%);
+  }
+}
+
+// Заголовки
+// ----------------------------------------------------
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin: 0 0 $bottom-space;
+  padding: 0;
+
+  @include font-normal;
+  font-weight: normal;
+  color: $title-color;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      color: $link-color;
+      text-decoration: underline;
+    }
+  }
+}
+
+h1, .h1 {
+  @include font-h1;
+}
+
+h2, .h2 {
+  @include font-h2;
+}
+
+h3, .h3 {
+  @include font-h3;
+}
+
+h4, .h4 {
+  @include font-h4;
+}
+
+h5, .h5 {
+  @include font-h5;
+}
+
+h6, .h6 {
+  @include font-h6;
+  text-transform: uppercase;
+}
+
+// p, pre
+// ----------------------------------------------------
+p, pre {
+  padding: 0;
+  margin: 0 0 $bottom-space;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Текстовый разделитель
+// ----------------------------------------------------
+hr {
+  line-height: 1px;
+  height: 0;
+  border: none;
+  background: none;
+  border-bottom: 1px solid $border-color;
+  margin-bottom: $bottom-space;
+}
+
+// Ссылка
+// ----------------------------------------------------
+a {
+  color: $link-color;
+  text-decoration: underline;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+
+  &:link {
+    cursor: pointer;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// Изображение
+// ----------------------------------------------------
+img {
+  border: none;
+  vertical-align: top;
+  max-width: 100%;
+
+  table & {
+    max-width: none;
+  }
+}
+
+// Начертание
+// ----------------------------------------------------
+b, strong, th {
+  @include font-bold;
+}
+
+i, em {
+  @include font-italic;
+}
+
+i b, i strong,
+em b, em strong,
+b i, b em,
+strong i, strong em {
+  @include font-bold-italic;
+}
+
+// Таблица
+// ----------------------------------------------------
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: auto;
+  margin-bottom: $bottom-space;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  td, th {
+    padding: 0.4em;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    border-color: $text-color;
+  }
+}
+
+// Добавить скролл в таблицу
+// ----------------------------------------------------
+.table-auto {
+  position: relative;
+  overflow: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: $bottom-space;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  table {
+    margin-bottom: 0;
+    width: auto;
+    min-width: 100%;
+  }
+}
+
+// Кастомная таблица
+// ----------------------------------------------------
+.tbl {
+  border: none;
+
+  td, th {
+    font-size: inherit;
+    line-height: inherit;
+    color: $text-color;
+    border: 0 solid $border-color;
+    background-color: $bg-color;
+
+    &:first-child, &:first-child {
+      border-left-width: 1px;
+    }
+
+    &:last-child, &:last-child {
+      border-right-width: 1px;
+    }
+  }
+
+  td {
+    border-top-width: 1px;
+  }
+
+  tbody tr:first-child td {
+    border-top-width: 0;
+  }
+
+  tbody tr:nth-child(even) td {
+    background: $bg-color-alt;
+  }
+
+  th, thead td, tfoot td {
+    @include font-bold;
+    text-align: left;
+    background: $bg-color-alt;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+  }
+}
+
+// Текст в несколько колонок
+// ----------------------------------------------------
+.columnize, .columnize--3, .columnize--4 {
+  column-count: 2;
+  column-gap: 2em;
+  margin-bottom: $bottom-space;
+  font-size: 0.9em;
+}
+
+.columnize--3 {
+  column-count: 3;
+  font-size: 0.85em;
+}
+
+.columnize--4 {
+  column-count: 4;
+  font-size: 0.8em;
+
+  @include media("<net") {
+    column-count: 3;
+  }
+}
+
+.columnize--3, .columnize--4 {
+  @include media("<tab") {
+    column-count: 2;
+  }
+}
+
+.columnize, .columnize--3, .columnize--4 {
+  @include media("<tab-s") {
+    column-count: 1;
+  }
+}
+
+/* typography elements */
+.typography {
+  h1, .h1,
+  h2, .h2,
+  h3, .h3,
+  h4, .h4,
+  h5, .h5,
+  h6, .h6 {
+    margin-top: round-float(2.6 * $bottom-space, 1);
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  // Figure
+  figure {
+    display: block;
+    padding: 0;
+    margin: 5.3rem 0 5rem;
+
+    img {
+      display: block;
+      max-width: 100%;
+      margin-bottom: 1.7rem;
+    }
+  }
+
+  figcaption {
+    display: block;
+    padding: 0;
+    margin: 0;
+    font-style: normal;
+    color: $text-color-light;
+
+    a {
+      color: inherit;
+      padding-top: 0.5em;
+    }
+  }
+
+  // Blockquote
+  blockquote {
+    display: block;
+    position: relative;
+    margin: 2.5em 0;
+    padding: 0;
+    @include font-normal;
+    font-size: round-float($font-size * 1.25, 1);
+    line-height: round-float($line-height * 1.2, 1);
+    color: $text-color;
+    text-align: center;
+
+    &::before {
+      content: "«";
+      display: block;
+      position: absolute;
+      margin: -0.49em 0 0 2%;
+      font-size: 10em;
+      line-height: 1;
+      text-align: left;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+
+    q {
+      display: block;
+      position: relative;
+      margin: 0;
+      padding: 0 0 10px;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+
+      &::after,
+      &::after {
+        content: none;
+      }
+    }
+
+    cite {
+      display: block;
+      font-size: inherit;
+      line-height: inherit;
+      text-align: center;
+    }
+  }
+
+  // List
+  $list-space: 2.5rem;
+
+  ul,
+  ol {
+    list-style: none;
+    margin: 0 0 $bottom-space;
+    padding: 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    li {
+      padding-left: $list-space;
+      margin: 0 0 round($bottom-space * 0.5);
+      position: relative;
+    }
+  }
+
+  ul,
+  ol ul {
+    & > li {
+      &::before {
+        content: "";
+        display: block;
+        float: left;
+        height: 0;
+        width: 0;
+        margin: 0.6em 0 -0.6em -#{$list-space};
+        border: 3px solid $text-color;
+        border-radius: 3px;
+      }
+
+      ul > li {
+        &::before {
+          border-color: lighten($text-color, 20%);
+        }
+
+        ul > li {
+          &::before {
+            border-color: lighten($text-color, 40%);
+          }
+        }
+      }
+    }
+  }
+
+  ol {
+    counter-reset: section;
+
+    & > li {
+      counter-increment: section;
+
+      &::before {
+        position: relative;
+        display: inline-block;
+        text-align: left;
+        color: $text-color;
+        content: counter(section) ".";
+        padding: 0 4px 0 0;
+        min-width: $list-space;
+        margin-left: -#{$list-space};
+      }
+    }
+  }
+
+  ul,
+  ol {
+    ul,
+    ol {
+      margin: round-float($bottom-space * 0.5, 1) 0;
+    }
+  }
+
+  // images
+  &,
+  & > p,
+  .layout-text,
+  .layout-flood {
+    & > img {
+      display: block;
+      margin: #{round-float($bottom-space * 1.25, 1)} auto #{round-float($bottom-space * 1.67, 1)};
+      max-width: 100%;
+      height: auto;
+      text-align: center;
+      clear: both;
+
+      @include media("<mob") {
+        margin-top: #{round-float($bottom-space--mob * 1.25, 1)};
+        margin-bottom: #{round-float($bottom-space--mob * 1.67, 1)};
+      }
+
+      &[align="left"], &.imgl {
+        float: left;
+        clear: left;
+        text-align: left;
+        max-width: 45%;
+        margin-top: 0;
+        margin-right: #{round-float($bottom-space * 1.25, 1)};
+
+        @include media("<mob") {
+          float: none;
+          max-width: 100%;
+          margin-right: auto;
+          text-align: center;
+        }
+      }
+
+      &[align="right"], &.imgr {
+        float: right;
+        clear: right;
+        text-align: right;
+        max-width: 45%;
+        margin-top: 0;
+        margin-left: #{round-float($bottom-space * 1.25, 1)};
+
+        @include media("<mob") {
+          float: none;
+          max-width: 100%;
+          margin-left: auto;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+/* typography elements end */
+
+/* article content */
+.article-content {
+  & > p,
+  & > hr,
+  & > mark,
+  & > ul, & > ol,
+  & > h1, & > .h1,
+  & > h2, & > .h2,
+  & > h3, & > .h3,
+  & > h4, & > .h4,
+  & > h5, & > .h5,
+  & > h6, & > .h6,
+  & > blockquote,
+  & > figure,
+  & > table,
+  & > .table-auto,
+  & > .layout-text {
+    max-width: $layout-text-width;
+
+    @include push-auto;
+  }
+
+  & > .layout-flood {
+    max-width: $layout-text-width;
+
+    @include push-auto;
+  }
+}
+
+/* article content end */

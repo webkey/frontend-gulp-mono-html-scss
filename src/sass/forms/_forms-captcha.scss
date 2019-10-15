@@ -1,0 +1,42 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+// Captcha
+// ====================================================
+
+.captcha {
+  position: relative;
+
+  input {
+    text-align: center;
+    width: 18rem;
+  }
+}
+
+.captcha-ctrl {
+  margin-bottom: $bottom-space;
+
+  .captcha-ctrl__img {
+    width: 180px;
+    max-width: 50%;
+  }
+
+  .captcha-ctrl__refresh {
+
+    a {
+      color: $text-color;
+      text-decoration: none;
+
+      span {
+        border-bottom: 1px dotted currentColor;
+      }
+
+      &:hover {
+        span {
+          border-bottom-color: transparent;
+        }
+      }
+    }
+  }
+}

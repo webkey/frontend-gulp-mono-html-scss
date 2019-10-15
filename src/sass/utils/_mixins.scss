@@ -1,0 +1,985 @@
+@import "variables";
+@import "functions";
+@import "../../../node_modules/mathsass/dist/math";
+@import "../../../node_modules/mathsass/dist/functions/tan";
+
+///
+/// @author Astronim* Sergey Ilchenko
+/// @access public
+///
+
+
+
+// =============================================================================
+// Size
+// =============================================================================
+
+/// Примесь позволяет определять `width` и `height` одновременно.
+///
+/// @param {Length} $width - Ширина элемента (width)
+/// @param {Length} $height ($width) - Высота элемента height()
+///
+/// @example Sass - Использование
+/// .foo {
+///   @include size(10em);
+/// }
+///
+/// .bar {
+///   @include size(100%, 10em);
+/// }
+///
+/// @example css - Вывод CSS
+/// .foo {
+///   width: 10em;
+///   height: 10em;
+/// }
+///
+/// .bar {
+///   width: 100%;
+///   height: 10em;
+/// }
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+
+
+// =============================================================================
+// Font size
+// =============================================================================
+
+/// Примесь добавляет одновремменно `font-size` и `line-height`
+///
+/// @param {Length} $font-size - Размер шрифта (font-size)
+/// @param {Length} $line-height - Межстрочный интервал (line-height)
+///
+/// @example Sass - Использование
+/// .foo {
+///   +font(1.4rem, 1.5);
+/// }
+///
+/// @example css - Вывод CSS
+/// .foo {
+///   font-size: 1.4rem;
+///   line-height: 1.5;
+/// }
+
+@mixin font-size($font-size: inherit, $line-height: inherit) {
+  font-size: $font-size;
+  line-height: $line-height;
+}
+
+
+
+// =============================================================================
+// Antialiased
+// =============================================================================
+
+/// Нормализует отображение текста во время анимации
+
+@mixin antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+
+// =============================================================================
+// Clear
+// =============================================================================
+
+/// Помощник для сброса внутреннего обтекания
+/// @author Николас Галлагер
+/// @link http://nicolasgallagher.com/micro-clearfix-hack/ Micro Clearfix
+
+@mixin clear {
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+
+
+// =============================================================================
+// Truncate
+// =============================================================================
+
+/// Обрезает текст и добавляет троеточие
+///
+/// @param {Length} $max-width [320px] - максиальная ширина элемента
+///
+/// @example Sass - Использование
+/// @example css - Вывод CSS
+
+@mixin truncate($max-width: 320px) {
+  max-width: $max-width;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+
+// =============================================================================
+// Margin, Padding
+// =============================================================================
+
+/// Примеси устанавливают противоположные отстпупы
+/// в развернутом виде.
+///
+/// @param {Length} $left [null] - левый `margin/padding` элемента
+/// @param {Length} $right [$left] - правый `margin/padding` элемента
+/// @param {Length} $top [null] - верхний `margin/padding` элемента
+/// @param {Length} $bottom [$top] - нижний `margin/padding` элемента
+///
+/// @example Sass - Использование
+///
+/// .foo {
+///   @include margin-horizontal(20px);
+/// }
+///
+/// .foo {
+///   @include margin-horizontal(20px, 10px);
+/// }
+///
+/// @example css - Вывод CSS
+///
+/// .foo {
+///   margin-left: 20px;
+///   margin-right: 20px;
+/// }
+///
+/// .foo {
+///   margin-left: 20px;
+///   margin-right: 10px;
+/// }
+
+@mixin margin-horizontal($left, $right: $left) {
+  margin: {
+    right: $right;
+    left: $left;
+  };
+}
+
+@mixin margin-vertical($top, $bottom: $top) {
+  margin: {
+    top: $top;
+    bottom: $bottom;
+  };
+}
+
+@mixin padding-horizontal($left, $right: $left) {
+  padding: {
+    right: $right;
+    left: $left;
+  };
+}
+
+@mixin padding-vertical($top, $bottom: $top) {
+  padding: {
+    top: $top;
+    bottom: $bottom;
+  };
+}
+
+
+
+// =============================================================================
+// Push auto
+// =============================================================================
+
+/// Примесь центрирует блочный элемент с ограниченной шириной.
+///
+/// @example Sass - Использование
+///
+/// .foo {
+///   @include push-auto;
+/// }
+///
+/// @example css - Вывод CSS
+///
+/// .foo {
+///   margin-left: auto;
+///   margin-right: auto;
+/// }
+
+@mixin push-auto() {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+// =============================================================================
+// Ratio
+// =============================================================================
+
+/// Примесь добавляет нижныий паддин равный соотношению ширины к высоте в процентах
+///
+/// @param {Number} $x [1] - ширина в пропорциональном соотношении
+/// @param {Number} $y [1] - высота в пропорциональном соотношении
+///
+/// @example Sass - Использование
+///
+/// .foo {
+///   @include ratio();
+/// }
+///
+/// .foo {
+///   @include ratio(16, 9);
+/// }
+///
+/// @example css - Вывод CSS
+///
+/// .foo {
+///   padding-top: 100%
+/// }
+///
+/// .foo {
+///   padding-top: 56.25%
+/// }
+
+@mixin ratio($x: 1, $y: 1) {
+  $padding: round-float($y / $x * 100%, 2);
+  padding-top: $padding;
+}
+
+
+
+// =============================================================================
+// Reset for inline-block elements
+// =============================================================================
+
+/// обнуляет горизонтальные отступы между `inline-block` елементами
+@mixin clear-spacing {
+  font-size: 0;
+  letter-spacing: -4px;
+}
+
+
+// =============================================================================
+// Grid Item
+// =============================================================================
+
+/// Формирует упрощенную сетку элементов с применением `display: inline-block`, или `float: left`;
+/// Для родителя наобходимо подключить `+grid-parent`;
+/// В случае с `inline-block` обнулить `font:size` и `letter-spacing` (примесь `+clear-spacing`)
+/// На оберту родителя при необходимости задать `overflow: hidden`;
+/// Для дочерних элементов необходимо подключить `+grid-item` или `+grid-item-float`;
+///
+/// @param {Length} $horizontal-space [20px] - горизонтальные отступы между элементами
+/// @param {Length} $length-in-row [2] - количество элементов в ряду
+/// @param {Length} $bottom-space [$horizontal-space] - нижние отступы элементов
+
+@mixin grid-parent($horizontal-space: 20px) {
+  margin: {
+    @if $horizontal-space == 0 {
+      left: 0;
+      right: 0;
+    } @else {
+      left: -#{round($horizontal-space / 2)};
+      right: -#{round($horizontal-space / 2)};
+    }
+  };
+}
+
+@mixin grid-item($length-in-row: 1, $horizontal-space: 20px, $bottom-space: $horizontal-space) {
+  display: inline-block;
+  vertical-align: top;
+  width: round-float(100% / $length-in-row, 2);
+  padding: {
+    left: round($horizontal-space / 2);
+    right: round($horizontal-space / 2);
+  };
+  &:nth-child(n) {
+    margin-top: $bottom-space;
+  }
+  &:nth-child(-n+#{$length-in-row}) {
+    margin-top: 0;
+  }
+}
+
+/// использовать если нужно только поменять количество колонок
+@mixin grid-item-responsive($length-in-row: 1, $horizontal-space: 20px, $bottom-space: $horizontal-space) {
+  width: round-float(100% / $length-in-row, 2);
+  padding: {
+    left: round($horizontal-space / 2);
+    right: round($horizontal-space / 2);
+  };
+  &:nth-child(n) {
+    margin-top: $bottom-space;
+  }
+  &:nth-child(-n+#{$length-in-row}) {
+    margin-top: 0;
+  }
+}
+
+@mixin grid-item-float($length-in-row: 1, $horizontal-space: 20px, $bottom-space: $horizontal-space) {
+  float: left;
+  width: round-float(100% / $length-in-row, 2);
+  padding: {
+    left: round($horizontal-space / 2);
+    right: round($horizontal-space / 2);
+  };
+  &:nth-child(n) {
+    margin-top: $bottom-space;
+    clear: none;
+  }
+  &:nth-child(-n+#{$length-in-row}) {
+    margin-top: 0;
+  }
+  &:nth-child(#{$length-in-row}n+1) {
+    clear: left;
+  }
+}
+
+/// использовать если нужно только поменять количество колонок
+@mixin grid-item-float-responsive($length-in-row: 1, $horizontal-space: 0, $bottom-space: $horizontal-space) {
+  width: round-float(100% / $length-in-row, 2);
+  padding: {
+    left: round($horizontal-space / 2);
+    right: round($horizontal-space / 2);
+  };
+  &:nth-child(n) {
+    margin-top: $bottom-space;
+    clear: none;
+  }
+  &:nth-child(-n+#{$length-in-row}) {
+    margin-top: 0;
+  }
+  &:nth-child(#{$length-in-row}n+1) {
+    clear: left;
+  }
+}
+
+
+/// Примесь позволяет указывает изображению способ заполнения блока,
+/// в котором находится
+/// Для ie9 необходимо подключить скрипт и прописать дополнительные свойства
+/// @link https://medium.com/@primozcigler/neat-trick-for-css-object-fit-fallback-on-edge-and-other-browsers-afbc53bbb2c3#.e3eu6mvxl
+///
+/// @param {String} $fit [cover] - метод заполнения
+/// @param {String} $pos [relative] - тип позиционирования
+///
+/// @example Sass - Использование
+///
+/// img.foo {
+///   @include object-fit-position;
+/// }
+///
+/// @example css - Вывод CSS
+///
+/// img.foo {
+///   position: relative
+///   top: 50%
+///   left: 50%
+///   max-width: none
+///   width: auto
+///   min-width: 100%
+///   min-height: 100%
+///   transform: translate(-50%, -50%)
+///   object-fit: cover
+/// }
+
+@mixin object-fit-position($fit: cover, $pos: relative) {
+  position: $pos;
+  top: 50%;
+  left: 50%;
+  min-width: 0;
+  min-height: 0;
+  max-width: none;
+  max-height: none;
+  height: 100%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  backface-visibility: hidden;
+  object-fit: $fit;
+}
+
+/// This mixin can be used to set the object-fit:
+/// @include object-fit(contain)
+///
+/// or object-fit and object-position:
+/// @include object-fit(cover, top)
+
+/// need to add this rules
+/// display: block
+/// width: 100%
+/// height: 100%
+/// max-width: none
+
+@mixin object-fit($fit: fill, $position: null) {
+  //-o-object-fit: $fit
+  object-fit: $fit;
+  @if $position {
+    //-o-object-position: $position
+    object-position: $position;
+    font-family: "object-fit: #{$fit}; object-position: #{$position}";
+  } @else {
+    font-family: "object-fit: #{$fit}";
+  }
+}
+
+
+
+// =============================================================================
+// Hide text for screen reader
+// =============================================================================
+
+/// Примесь скрывает текст, который остается видимым для генераторов речи
+
+@mixin hide-text {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+
+  &:active, &:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+  }
+}
+
+
+
+// =============================================================================
+// Input placeholder
+// =============================================================================
+
+/// Создает селекторы для кроссбраузерного placeholder
+///
+/// @example Sass - Использование
+/// .foo {
+///   @include placeholder {
+///     color: green;
+///   }
+/// }
+///
+/// @example css - Вывод CSS
+/// .foo::-webkit-input-placeholder {
+///   color: green;
+/// }
+/// .foo:-moz-placeholder {
+///   color: green;
+/// }
+/// .foo::-moz-placeholder {
+///   color: green;
+/// }
+/// .foo:-ms-input-placeholder {
+///   color: green;
+/// }
+/// .foo.placeholder {
+///   color: green;
+/// }
+
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+    @content;
+  }
+}
+
+@mixin placeholder() {
+  @include optional-at-root('::-webkit-input-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root('::-moz-placeholder') {
+    opacity: 1;
+    @content;
+  }
+
+  @include optional-at-root(':-ms-input-placeholder') {
+    opacity: 1;
+    @content;
+  }
+
+  @include optional-at-root('.placeholder') {
+    @content;
+  }
+}
+
+
+@mixin placeholder-focus {
+  @include optional-at-root(":focus::-webkit-input-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":focus:-moz-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":focus::-moz-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":focus:-ms-input-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(".placeholder:focus") {
+    @content;
+  }
+}
+
+@mixin placeholder-hover {
+  @include optional-at-root(":hover::-webkit-input-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":hover:-moz-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":hover::-moz-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":hover:-ms-input-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(".placeholder:hover") {
+    @content;
+  }
+}
+
+@mixin placeholder-active {
+  @include optional-at-root(":active::-webkit-input-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":active:-moz-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":active::-moz-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":active:-ms-input-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(".placeholder:active") {
+    @content;
+  }
+}
+
+
+
+// =============================================================================
+// Scroll lock
+// =============================================================================
+/// Примесь блокирования прокрутки страницы
+
+@mixin scroll-blocked {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+
+
+// =============================================================================
+// Triangle helper mixin
+// =============================================================================
+/// Примесь созадает простую стрелку-треугольник
+/// Применяется к псевдоэлементу
+/// Triangle helper mixin
+/// @param {Direction} $direction - Triangle direction, either `top`, `right`, `bottom` or `left`
+/// @param {Color} $color [currentcolor] - Triangle color
+/// @param {Length} $size [1em] - Triangle size
+/// @param {Number} $kef [1em] - Higher-to-base ratio
+///
+/// @example Sass - Использование
+///
+/// .foo::before {
+///   @include triangle(bottom);
+///   position: absolute;
+///   left: 50%;
+///   bottom: 100%;
+/// }
+///
+/// @example css - Вывод CSS
+///
+/// .foo::before {
+///   width: 0;
+///   height: 0;
+///   content: '';
+///   z-index: 2;
+///   border-top: 1.5em solid tomato;
+///   border-left: 1em solid transparent;
+///   border-right: 1em solid transparent;
+///   position: absolute;
+///   left: 50%;
+///   bottom: 100%;
+/// }
+
+@mixin triangle($direction, $color: tomato, $size: 1em, $kef: 1.5) {
+  @if not index(top right bottom left, $direction) {
+    @error "Direction must be either `top`, `right`, `bottom` or `left`.";
+  }
+  width: 0;
+  height: 0;
+  z-index: 2;
+  border-#{opposite-direction($direction)}: round($size * $kef) solid $color;
+  $perpendicular-borders: $size solid transparent;
+  @if $direction == top or $direction == bottom {
+    border-left: $perpendicular-borders;
+    border-right: $perpendicular-borders;
+  } @else if $direction == right or $direction == left {
+    border-bottom: $perpendicular-borders;
+    border-top: $perpendicular-borders;
+  }
+}
+
+
+
+// =============================================================================
+// Triangle pretty
+// =============================================================================
+
+/// Примесь формирует стрелку-треугольник с бордером
+/// Применяется к самому элементу, а стрелка-треугольник формируется из псевдоэлементов ::before, ::after
+/// Необходимо подключить плагин mathsass https://www.npmjs.com/package/mathsass
+/// Примесь требует доработки! Действует с ограничениями!
+/// Для правильной работи необходимо строго придерживаться правил добавления параметров
+///
+/// @param {Direction} $direction                - Направление стрелки-треугольника: `top`, `right`, `bottom` or `left`
+/// @param {Map} $origins-map []                 - Расположение стрелки-треугольника относительно родительского элемента
+///                                                Например: (top: 50%, left: 100%) - по правому краю по центру
+///                                                Задавать значения необходимо придерживая двух правил:
+///                                                1) по первому из значений стрелка-треугольник будет смещена
+///                                                в противоположную сторону на половину ширины основания;
+///                                                2) значений должно быть не больше двух, что логично.
+///                                                Если нужно разместить стрелку внизу по центру, то значения должны быть такими:
+///                                                (right: 50%, bottom: 0) либо (left: 50%, bottom: 0)
+/// @param {Color} $color [brown]                - Цвет стрелки-треугольника
+/// @param {Length} $size-towards [30px]         - Высота стрелки-треугольника с учетом бордера
+///                                                (от основания до вершины указвающей направление)
+/// @param {Length} $size-across [$size-towards] - Ширина стрелки-треугольника с учетом бордера
+///                                               (ширина основания противоположного вершине указвающей направление)
+/// @param {Color} $bd-color [tomato]            - Цвет бордера стрелки-треугольника
+/// @param {Length} $bd-width [2px]              - Цвет бордера стрелки-треугольника
+///
+/// @example Sass - Использование
+///
+/// .foo {
+///   @include triangle-pretty(bottom, (right: 50%, top: 100%), darkolivegreen, 30px, 30px, darkslategray, 3px);
+/// }
+///
+/// @example css - Вывод CSS
+///
+/// .foo::before,
+/// .foo::after{
+///   content: "";
+///   display: block;
+///   position: absolute;
+///   top: 100%;
+///   right: 50%;
+///   pointer-events: none;
+/// }
+/// .foo::before{
+///   z-index: 2;
+///   margin-right: -15px;
+///   border-top: 30px solid darkslategray;
+///   border-left: 15px solid transparent;
+///   border-right: 15px solid transparent;
+/// }
+/// .foo::after{
+///   z-index: 3;
+///   margin-right: -12px;
+///   border-top: 23px solid darkolivegreen;
+///   border-left: 12px solid transparent;
+///   border-right: 12px solid transparent;
+/// }
+
+@mixin triangle-pretty($direction, $origins-map: (), $color: brown, $size-towards: 30px, $size-across: $size-towards, $bd-color: tomato, $bd-width: 2px) {
+  @if not index(top right bottom left, $direction) {
+    @error "Direction must be either `top`, `right`, `bottom` or `left`.";
+  }
+  $unit-size-toward: unit($size-towards);
+  $unit-size-across: unit($size-across);
+  @if $unit-size-across != $unit-size-across {
+    @error "Значение высоты треугольника и его основания должны быть в одинаковых единицах измерения";
+  }
+  // переменные для смещения стрелки-треугольника назад на половину ширины основания
+  $top: null;
+  $right: null;
+  $bottom: null;
+  $left: null;
+  $margin-direct: null;
+  $i: 0;
+  // определение направления и величины смещения
+  @each $origin, $value in $origins-map {
+    @if $i == 0 {
+      $margin-direct: $origin;
+    }
+    $i: $i + 1;
+    @if $origin == top {
+      $top: $value;
+    }
+    @if $origin == right {
+      $right: $value;
+    }
+    @if $origin == bottom {
+      $bottom: $value;
+    }
+    @if $origin == left {
+      $left: $value;
+    }
+  }
+  // вывод общих стилей
+  &::before, &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    pointer-events: none;
+  }
+  // вывод стилей большой (внешней) стрелки-треугольника
+  &::before {
+    z-index: 2;
+    @if $margin-direct {
+      margin-#{$margin-direct}: -#{$size-across * 0.5};
+    }
+    border-#{opposite-direction($direction)}: $size-towards solid $bd-color;
+    $perpendicular-borders: round($size-across * 0.5) solid transparent;
+    @if $direction == top or $direction == bottom {
+      border-left: $perpendicular-borders;
+      border-right: $perpendicular-borders;
+    } @else if $direction == right or $direction == left {
+      border-bottom: $perpendicular-borders;
+      border-top: $perpendicular-borders;
+    }
+  }
+  // рассчет маленькой стрелки-треугольника по размеру бордера
+  $tg-angle: 2 * $size-towards / $size-across;
+  $angle: atan($tg-angle);
+  $sin-angle: sin($angle);
+  $height-large: $size-across * $sin-angle;
+  $height-small: $height-large - $bd-width * 2;
+  $small-size-across: $height-small / $sin-angle;
+  $small-size-toward: $small-size-across / 2 * $tg-angle;
+  // вывод стилей маленькой (внутренней) стрелки-треугольника
+  &::after {
+    z-index: 3;
+    @if $margin-direct {
+      margin-#{$margin-direct}: -(round($small-size-across * 0.5));
+    }
+    border-#{opposite-direction($direction)}: round($small-size-toward) solid $color;
+    $perpendicular-borders: round($small-size-across * 0.5) solid transparent;
+    @if $direction == top or $direction == bottom {
+      border-left: $perpendicular-borders;
+      border-right: $perpendicular-borders;
+    } @else if $direction == right or $direction == left {
+      border-bottom: $perpendicular-borders;
+      border-top: $perpendicular-borders;
+    }
+  }
+}
+
+
+
+// =============================================================================
+// Leaner gradient -vendor
+// =============================================================================
+/// Convert angle
+/// @author Chris Eppstein
+/// @param {Number} $value - Value to convert
+/// @param {String} $unit - Unit to convert to
+/// @return {Number} Converted angle
+///
+@function convert-angle($value, $unit) {
+  $convertable-units: deg grad turn rad;
+  $conversion-factors: 1 10grad / 9deg 1turn / 360deg 3.14159rad / 180deg;
+  @if index($convertable-units, unit($value)) and index($convertable-units, $unit) {
+    @return $value / nth($conversion-factors, index($convertable-units, unit($value))) * nth($conversion-factors, index($convertable-units, $unit));
+  }
+  @warn "Cannot convert `#{unit($value)}` to `#{$unit}`.";
+}
+
+/// Test if `$value` is an angle
+/// @param {*} $value - Value to test
+/// @return {Bool}
+///
+@function is-direction($value) {
+  $is-direction: index((to top, to top right, to right top, to right, to bottom right, to right bottom, to bottom, to bottom left, to left bottom, to left, to left top, to top left), $value);
+  $is-angle: type-of($value) == "number" and index("deg" "grad" "turn" "rad", unit($value));
+  @return $is-direction or $is-angle;
+}
+
+/// Convert a direction to legacy syntax
+/// @param {Keyword | Angle} $value - Value to convert
+/// @require {function} is-direction
+/// @require {function} convert-angle
+///
+@function legacy-direction($value) {
+  @if is-direction($value) == false {
+    @warn "Cannot convert `#{$value}` to legacy syntax because it doesn't seem to be an angle or a direction";
+  }
+  $conversion-map: (to top: bottom, to top right: bottom left, to right top: left bottom, to right: left, to bottom right: top left, to right bottom: left top, to bottom: top, to bottom left: top right, to left bottom: right top, to left: right, to left top: right bottom, to top left: bottom right);
+  @if map-has-key($conversion-map, $value) {
+    @return map-get($conversion-map, $value);
+  }
+  @return 90deg - convert-angle($value, "deg");
+}
+
+/// Mixin printing a linear-gradient
+/// as well as a plain color fallback
+/// and the `-webkit-` prefixed declaration
+/// @param {String | List | Angle} $direction - Linear gradient direction
+/// @param {Arglist} $color-stops - List of color-stops composing the gradient
+///
+@mixin linear-gradient($direction, $color-stops...) {
+  @if is-direction($direction) == false {
+    $color-stops: $direction, $color-stops;
+    $direction: 180deg;
+  }
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+  background: linear-gradient($direction, $color-stops);
+}
+
+// Tests
+//.test-1
+//  +linear-gradient(#31B7D7, #EDAC7D)
+//
+//.test-2
+//  +linear-gradient(to right, #E47D7D 0%, #C195D3 50%, #4FB4E8 100%)
+//
+//.test-3
+//  +linear-gradient(42deg, #B58234 0%, #D2B545 50%, #D7C04D 50.01%, #FFFFFF 100%)
+
+
+
+// =============================================================================
+// Font Face Generator
+// =============================================================================
+
+/// Примесь генерирует подключение @font-face шрифтов
+///
+/// @author []
+///
+/// @param {String} $name [] - название шрифта
+/// @param {String} $path [] - путь к шрифту включая файл без расширения
+/// @param {String} $weight [null] - значение `font-weight`
+/// @param {String} $style [null] - значение `font-style`
+/// @param {Map} $exts [eot woff2 woff ttf svg] - мапа расширений шрифта
+///
+/// @example Sass - Использование
+///
+/// +font-face("candara", "../fonts/candara/regular/candara", normal, normal, eot woff ttf svg)
+///
+/// @example css - Вывод CSS
+///
+/// @font-face{
+///   font-family: "название-шрифта";
+///   font-style: normal;
+///   font-weight: normal;
+///   src: url("../fonts/candara/regular/candara.eot?") format("eot"), url("../fonts/candara/regular/candara.woff") format("woff"), url("../fonts/candara/regular/candara.ttf") format("truetype"), url("../fonts/candara/regular/candara.svg#candara-regular") format("svg");
+/// }
+
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+  $src: null;
+  $extmods: (eot: "?", svg: "#" + str-replace($name, " ", "_"));
+  $formats: (otf: "opentype", ttf: "truetype");
+  @each $ext in $exts {
+    $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+    $src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+  }
+  @font-face {
+    font-family: quote($name);
+    font-style: $style;
+    font-weight: $weight;
+    src: $src;
+  }
+}
+
+
+
+// =============================================================================
+// For Print Version
+// =============================================================================
+@mixin print-reset {
+  //display: block !important;
+  float: none !important;
+  position: relative !important;
+  overflow: visible !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  left: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+  text-align: left !important;
+  border: none !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  z-index: auto !important;
+}
+
+@mixin prints-space-bottom-sm {
+  margin-top: 0 !important;
+  margin-bottom: 0.5cm !important;
+  padding-bottom: 0 !important;
+}
+
+@mixin prints-space-bottom-md {
+  margin-top: 0 !important;
+  margin-bottom: 1cm !important;
+  padding-bottom: 0 !important;
+}
+
+@mixin prints-space-bottom-lg {
+  margin-bottom: 1.5cm !important;
+  padding-bottom: 0 !important;
+}

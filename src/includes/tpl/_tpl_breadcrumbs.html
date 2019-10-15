@@ -1,0 +1,8 @@
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul class="breadcrumbs__list">
+    @@for (var i = 0; i < items.length; i++) {
+    <li class="breadcrumbs__item"><a href="#" title="`+items[i]+`">`+items[i]+`</a></li>
+    }
+    <li class="breadcrumbs__item current" aria-current="page">@@if(context.last){@@last}@@if(!context.last){Название раздела}</li>
+  </ul>
+</nav>

@@ -1,0 +1,81 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+// Form group elements
+// ===================
+
+$form-group-cols: 2;
+$form-group-gap: 4rem;
+$form-group-gap-half: round-float($form-group-gap / 2, 1);
+// ------ mob -----------------------------------------
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin: 0 -#{$form-group-gap-half} $form-bottom-space;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @include media("<mob") {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.form-group__item,
+.form-group__item_full-width{
+  position: relative;
+  flex-grow: 1;
+  flex-shrink: 0;
+  $width: calc(100% / #{$form-group-cols} - #{$form-group-gap});
+  width: $width;
+  max-width: $width;
+  margin: 0 #{$form-group-gap-half};
+
+  @include media("<mob") {
+    display: block;
+    width: auto;
+    max-width: none;
+    margin-bottom: $form-bottom-space;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  // Нижние отступы у элементов форм необходимо обнулить
+  .form-def, .form-radiocheck, .select2 {
+    margin-bottom: 0;
+  }
+
+  // Form validate feedback
+  // ----------------------------------------------------
+  .error-feedback,
+  .success-feedback {
+    margin-top: 0;
+    margin-bottom: -#{$validate-feedback-height};
+  }
+
+  // Select has custom arrow
+  // ----------------------------------------------------
+  select.form-def.has-arrow {
+    & + .select-arrow {
+      margin-top: -#{$select-height};
+
+      // ------ mob -----------------------------------------
+      @include media($form-media--mob) {
+        margin-top: -#{$select-height--mob};
+      }
+    }
+  }
+}
+
+// Растянуть на всю ширину
+.form-group__item_full-width {
+  $width: calc(100% - #{$form-group-gap});
+  width: $width;
+  max-width: $width;
+}

@@ -1,0 +1,213 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+// ====================================================
+// LABEL
+// ====================================================
+
+label {
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 0.5em;
+  font-size: $font-size;
+  line-height: $line-height;
+  color: $text-color-light;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent !important;
+
+  mark {
+    background: none;
+    color: $error-color;
+  }
+}
+
+// ====================================================
+// ОБЩИЕ стили для полей ввода
+// ====================================================
+
+// После задания размеров поля ввода,
+// всегда нужно проверять внутренние отступы и высоту
+.form-def {
+  $form-def: &; // Ссылка на текущий класс
+
+  @include input-common;
+  @include input-font;
+  @include form-def-space;
+  transition: color $animation-speed, border $animation-speed;
+
+  // ------ mob -----------------------------------------
+  @include media($form-media--mob) {
+    @include input-common--mob;
+    @include input-font--mob;
+    @include form-def-space--mob;
+  }
+
+  // В reset на input-елементах обнулены закрукления.
+  // Перебить их можно сложным селектором.
+  // Например, input.btn-def
+  @at-root {
+    #{$form-def}, input#{$form-def} {
+      border-radius: $form-def-border-radius;
+    }
+  }
+
+  // Для последний элемент обнулить нижний отступ
+  // ----------------------------------------------------
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+
+  // ====================================================
+  // TEXTAREA
+  // ====================================================
+
+  // Дополнительные стили для <textarea>
+  @at-root {
+    textarea#{$form-def} {
+      $lines: 3;
+      $height: round-float($form-def-line-height * $lines, 1) + $form-def-space-vt + $form-def-space-vb + round-float(px-to-rem($form-def-border-width) * 2, 1);
+
+      min-height: $height;
+      height: $height;
+      resize: vertical;
+
+      // ------ mob -----------------------------------------
+      @include media($form-media--mob) {
+        $lines: 3;
+        $height: round($form-def-line-height--mob * $lines) + $form-def-space-vt--mob + $form-def-space-vb--mob + round(px-to-rem($form-def-border-width--mob) * 2);
+
+        min-height: $height;
+        height: $height;
+      }
+    }
+  }
+
+
+  // ====================================================
+  // SELECT
+  // ====================================================
+
+  // После задания размеров поля ввода
+  // всегда нужно проверять внутренние отступы и высоту
+  @at-root {
+    select#{$form-def} {
+      // Если стили селектов не отличаются от инпутов,
+      // то из select-common и select-font
+      // можно удалить дублирующие свойства
+      @include select-common;
+      overflow: hidden;
+      text-overflow: clip;
+      white-space: nowrap;
+      @include select-font;
+
+      // ------ mob -----------------------------------------
+      @include media($form-media--mob) {
+        @include select-common--mob;
+        @include select-font--mob;
+      }
+
+      // Select has custom arrow
+      // ----------------------------------------------------
+      // Add class .has-arrow to the select
+      &.has-arrow {
+        // Remove default arrow (ff)
+        appearance: none;
+
+        // Remove default arrow (ie)
+        &::-ms-expand {
+          display: none;
+        }
+
+        // Add div.select-arrow after the select
+        & + .select-arrow {
+          float: right;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          height: $select-height;
+          width: $select-arrow-width;
+          margin-top: -#{$form-bottom-space + $select-height};
+          @include font-size(0);
+
+          // ------ mob -----------------------------------------
+          @include media($form-media--mob) {
+            height: $select-height--mob;
+            width: $select-arrow-width--mob;
+            margin-top: -#{$form-bottom-space--mob + $select-height--mob};
+          }
+        }
+      }
+    }
+  }
+
+  // Placeholder
+  // ----------------------------------------------------
+  @include placeholder {
+    color: $form-def-placeholder-color;
+    transition: $animation-speed opacity;
+  }
+
+  // Placeholder hide on focus
+  @include placeholder-focus {
+    opacity: 0;
+  }
+
+
+  // ====================================================
+  // STATES
+  // ====================================================
+
+  // Hover
+  // ----------------------------------------------------
+  &:hover {
+    @include focused;
+  }
+
+  // Focus
+  // ----------------------------------------------------
+  &:focus,
+  &.focused {
+    @include focused;
+  }
+
+  // Has value
+  // ----------------------------------------------------
+  &.filled {
+    @include filled;
+  }
+
+  // Success
+  // ----------------------------------------------------
+  &.success {
+    @include form-success;
+
+    // Placeholder
+    @include placeholder {
+      color: $form-success-color;
+    }
+  }
+
+  // Error
+  // ----------------------------------------------------
+  &.error {
+    @include form-error;
+
+    // Placeholder
+    @include placeholder {
+      color: $form-error-color;
+    }
+  }
+
+  // Disabled
+  // ----------------------------------------------------
+  &[disabled] {
+    @include forms-disabled;
+
+    @include placeholder {
+      color: $form-text-color--disabled !important;
+    }
+  }
+}

@@ -1,0 +1,194 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+// Checkbox and Radiobutton
+// ========================
+
+$checkbox-size: 18px !default;
+$checkbox-check-size: 6px 10px !default;
+$radio-check-size: 10px !default;
+$checkbox-color: $base-color !default;
+$checkbox-color-hover: $base-color-alt !default;
+
+.form-radiocheck {
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 0;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  color: #777;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  // Hide default inputs
+  input[type="checkbox"], input[type="radio"] {
+    position: absolute;
+    @include size(16px);
+    padding: 0;
+    margin: 0;
+    display: none;
+
+    &:disabled {
+      color: #bdbdbd !important;
+
+      & + span {
+        cursor: default !important;
+        color: #d6d6d6 !important;
+
+        &::before, &::after {
+          border-color: currentColor !important;
+        }
+
+        &::before {
+          background-color: #f3f3f3 !important;
+        }
+      }
+    }
+  }
+
+  & > span {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 27px;
+    cursor: pointer;
+
+    &::before, &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      box-sizing: border-box;
+
+      $prop: opacity, border-color;
+
+      will-change: $prop;
+      transition: border-color ease-in-out 0.2s;
+    }
+
+    &::before {
+      left: 0;
+      top: 50%;
+      border: 1px solid $checkbox-color;
+      width: $checkbox-size;
+      height: $checkbox-size;
+      margin: -#{round($checkbox-size / 2)} 0;
+    }
+
+    &::after {
+      $prop: transform, opacity;
+
+      will-change: $prop;
+      transition: transform cubic-bezier(0.45, -1.1, 0.45, 2.1) 0.22s, opacity ease-in-out 0.2s;
+    }
+  }
+}
+
+.form-radiocheck {
+  input[type="checkbox"] {
+    & ~ span {
+      &::before {
+        border-radius: 3px;
+      }
+
+      &::after {
+        opacity: 0;
+        left: 0;
+        top: 50%;
+        height: nth($checkbox-check-size, 1);
+        width: nth($checkbox-check-size, 2);
+        margin: -#{round(nth($checkbox-check-size, 1) / 2) + 1} #{round(($checkbox-size - nth($checkbox-check-size, 2)) / 2)};
+        border: solid $checkbox-color;
+        border-width: 0 0 2px 2px;
+
+        $rotate: -30deg;
+        $scale: 1.1, 1.1;
+
+        transform: rotate($rotate) scale($scale);
+        transform: rotate($rotate) scale3d($scale, 1);
+      }
+    }
+  }
+
+  // Hover
+  &:hover {
+    input[type="checkbox"] {
+      & ~ span {
+        &::before {
+          border-color: $checkbox-color-hover;
+        }
+      }
+    }
+  }
+
+  // Checked
+  input[type="checkbox"] {
+    &:checked {
+      & ~ span {
+        &::after {
+          opacity: 1;
+
+          $rotate: -45deg;
+          $scale: 1, 1;
+
+          transform: rotate($rotate) scale($scale);
+          transform: rotate($rotate) scale3d($scale, 1);
+        }
+      }
+    }
+  }
+}
+
+.form-radiocheck {
+  input[type="radio"] {
+    & ~ span {
+      &::before {
+        border-radius: round($checkbox-size / 2);
+      }
+
+      &::after {
+        opacity: 0;
+        left: 0;
+        top: 50%;
+        height: $radio-check-size;
+        width: $radio-check-size;
+        margin: -#{round($radio-check-size / 2)} #{round(($checkbox-size - $radio-check-size) / 2)};
+        border: round($radio-check-size / 2) solid $checkbox-color;
+        border-radius: round($radio-check-size / 2);
+
+        $scale: 1.35, 1.35;
+
+        transform: scale($scale);
+        transform: scale3d($scale, 1);
+      }
+    }
+  }
+
+  // Hover
+  &:hover {
+    input[type="radio"] {
+      & ~ span {
+        &::before {
+          border-color: $checkbox-color-hover;
+        }
+      }
+    }
+  }
+
+  // Checked
+  input[type="radio"] {
+    &:checked {
+      & ~ span {
+        &::after {
+          opacity: 1;
+
+          $rotate: 0;
+          $scale: 1, 1;
+
+          transform: scale($scale);
+          transform: scale3d($scale, 1);
+        }
+      }
+    }
+  }
+}

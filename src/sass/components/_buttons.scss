@@ -1,0 +1,111 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+/* button default */
+.btn-def {
+  $btn: &;
+  $btn-font-size: 1.4rem;
+  $btn-line-height: 1.8rem;
+  $btn-letter-spacing: 0.2em;
+  $btn-border-width: 2px;
+  $btn-space-inner-vertical: round-float(($btn-height - $btn-line-height - px-to-rem($btn-border-width) * 2) / 2, 1);
+  $btn-space-inner-horizontal: $btn-space-inner-vertical * 2;
+  $btn-border-radius: 5px;
+
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: #{$btn-space-inner-vertical} #{$btn-space-inner-horizontal};
+  font-size: $btn-font-size;
+  line-height: $btn-line-height;
+  letter-spacing: $btn-letter-spacing;
+  color: $btn-text-color;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  border: $btn-border-width solid transparent;
+  background-color: $btn-bg-color;
+  box-shadow: none;
+  transition: color $animation-speed, border-color $animation-speed, background-color $animation-speed;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  // В reset на input-елементах обнулены закрукления.
+  // Перебить их можно сложным селектором.
+  // Например, input.btn-def
+  @at-root {
+    #{$btn}, input#{$btn} {
+      border-radius: $btn-border-radius;
+    }
+  }
+
+  // Hover
+  .no-touchevents &:hover {
+    background-color: $btn-bg-hover-color;
+  }
+
+  // Disabled
+  &:disabled, &.disabled {
+    @include btn-disabled;
+  }
+}
+
+/* button default end */
+
+/* button alternative */
+.btn-alt {
+  $btn: &;
+  $btn-font-size: 1.4rem;
+  $btn-line-height: 1.8rem;
+  $btn-letter-spacing: 0.2em;
+  $btn-border-width: 2px;
+  $btn-space-inner-vertical: round-float(($btn-height - $btn-line-height - px-to-rem($btn-border-width) * 2) / 2, 1);
+  $btn-space-inner-horizontal: $btn-space-inner-vertical * 2;
+  $btn-border-radius: 5px;
+
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: #{$btn-space-inner-vertical} #{$btn-space-inner-horizontal};
+  font-size: $btn-font-size;
+  line-height: $btn-line-height;
+  letter-spacing: $btn-letter-spacing;
+  color: $btn-bg-color;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  border: $btn-border-width solid $btn-bg-color;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: none;
+  transition: color $animation-speed, border-color $animation-speed, background-color $animation-speed;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  // В reset на input-елементах обнулены закрукления.
+  // Перебить их можно сложным селектором.
+  // Например, input.btn-def
+  @at-root {
+    #{$btn}, input#{$btn} {
+      border-radius: $btn-border-radius;
+    }
+  }
+
+  // Hover
+  .no-touchevents &:hover {
+    color: $btn-text-color;
+    background-color: $btn-bg-color;
+  }
+
+  // Disabled
+  &:disabled, &.disabled {
+    @include btn-disabled;
+  }
+}
+
+/* button alternative end */

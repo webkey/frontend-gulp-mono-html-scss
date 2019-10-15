@@ -1,0 +1,50 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "project description",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Astronim",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "del": "^2.2.2",
+    "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-beautify": "^2.0.1",
+    "gulp-cache": "^0.4.5",
+    "gulp-concat": "^2.6.1",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-file-include": "^1.0.0",
+    "gulp-html-beautify": "^1.0.1",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-index": "^0.2.0",
+    "gulp-remove-empty-lines": "^0.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev-timestamp": "0.0.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sass-variables": "^1.1.1",
+    "gulp-sourcemaps": "^2.4.0",
+    "gulp-string-replace": "^0.4.0",
+    "gulp-strip-comments": "^2.5.2",
+    "gulp-strip-css-comments": "^2.0.0",
+    "gulp-uglifyjs": "^0.6.2",
+    "imagemin-pngquant": "^5.0.0",
+    "include-media": "^1.4.9",
+    "jquery": "^3.4.1",
+    "jquery-validation": "^1.19.1",
+    "markdown": "^0.5.0",
+    "mathsass": "^0.11.0",
+    "modernizr": "^3.7.1",
+    "normalize-scss": "^7.0.1",
+    "select2": "^4.0.11"
+  },
+  "dependencies": {
+    "object-fit-images": "^3.2.3"
+  }
+}

@@ -1,0 +1,560 @@
+@import "functions";
+
+// Media query
+// ====================================================
+$breakpoints: (
+    "desk-l": 2560px,
+    "desk": 1920px,
+    "desk-s": 1600px,
+    "lap-l": 1440px,
+    "lap": 1366px,
+    "lap-s": 1280px,
+    "net": 1200px,
+    "tab": 992px,
+    "tab-s": 768px,
+    "mob": 640px,
+    "mob-s": 480px,
+    "mob-xs": 375px,
+    "mob-xxs": 360px
+);
+
+
+// Fonts style
+// ====================================================
+$font-norm: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$font-alt: Georgia, serif !default;
+
+// Main font
+// ----------------------------------------------------
+@mixin font-normal {
+  font-family: $font-norm;
+}
+
+@mixin font-bold {
+  font-weight: bold;
+}
+
+@mixin font-italic {
+  font-style: italic;
+}
+
+@mixin font-bold-italic {
+  font-weight: bold;
+  font-style: italic;
+}
+
+// Alternative font
+// ----------------------------------------------------
+@mixin font-alt {
+  font-family: $font-alt;
+}
+
+@mixin font-alt-bold {
+  font-family: $font-alt;
+  font-weight: bold;
+}
+
+@mixin font-alt-bold-italic {
+  font-family: $font-alt;
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+// Base font size
+// ====================================================
+$font-size: 1.8rem !default;
+$line-height: 2.7rem !default;
+$letter-spacing: normal !default;
+// ------ mob -----------------------------------------
+$font-size--mob: 1.6rem !default;
+$line-height--mob: 2.4rem !default;
+
+
+// Heading h1
+// ====================================================
+$font-size-h1: 4.2rem !default;
+$line-height-h1: 5.2rem !default;
+$line-height-h1-kef: $line-height-h1 / $font-size-h1;
+// ------ tab -----------------------------------------
+$font-size-h1--tab: 3.4rem !default;
+$line-height-h1--tab: round-float($font-size-h1--tab * $line-height-h1-kef, 1) !default; // Использовать рассчетное значение, если нет в дизайне
+// ------ mob -----------------------------------------
+$font-size-h1--mob: 3.0rem !default;
+$line-height-h1--mob: round-float($font-size-h1--mob * $line-height-h1-kef, 1) !default; // Использовать рассчетное значение, если нет в дизайне
+// ----------------------------------------------------
+@mixin font-h1() {
+  font-size: $font-size-h1;
+  line-height: $line-height-h1;
+
+  @include media("<tab") {
+    font-size: $font-size-h1--tab;
+    line-height: $line-height-h1--tab;
+  }
+
+  @include media("<mob") {
+    font-size: $font-size-h1--mob;
+    line-height: $line-height-h1--mob;
+  }
+}
+
+
+// Heading h2
+// ====================================================
+$font-size-h2: 3.0rem !default;
+$line-height-h2: 4.2rem !default;
+$line-height-h2-kef: $line-height-h2 / $font-size-h2;
+// ------ tab -----------------------------------------
+$font-size-h2--tab: 2.8rem !default;
+$line-height-h2--tab: round-float($font-size-h2--tab * $line-height-h2-kef, 1) !default; // Использовать рассчетное значение, если нет в дизайне
+// ------ mob -----------------------------------------
+$font-size-h2--mob: 2.4rem !default;
+$line-height-h2--mob: round-float($font-size-h2--mob * $line-height-h2-kef, 1) !default; // Использовать рассчетное значение, если нет в дизайне
+// ----------------------------------------------------
+@mixin font-h2() {
+  font-size: $font-size-h2;
+  line-height: $line-height-h2;
+
+  @include media("<tab") {
+    font-size: $font-size-h2--tab;
+    line-height: $line-height-h2--tab;
+  }
+
+  @include media("<mob") {
+    font-size: $font-size-h2--mob;
+    line-height: $line-height-h2--mob;
+  }
+}
+
+
+// Heading h3
+// ====================================================
+$font-size-h3: 2.4rem !default;
+$line-height-h3: 3.0rem !default;
+$line-height-h3-kef: $line-height-h3 / $font-size-h3;
+// ------ tab -----------------------------------------
+$font-size-h3--tab: 2.2rem !default;
+$line-height-h3--tab: round-float($font-size-h3--tab * $line-height-h3-kef, 1) !default; // Использовать рассчетное значение, если нет в дизайне
+// ------ mob -----------------------------------------
+$font-size-h3--mob: 1.8rem !default;
+$line-height-h3--mob: round-float($font-size-h3--mob * $line-height-h3-kef, 1) !default; // Использовать рассчетное значение, если нет в дизайне
+// ----------------------------------------------------
+@mixin font-h3() {
+  font-size: $font-size-h3;
+  line-height: $line-height-h3;
+
+  @include media("<tab") {
+    font-size: $font-size-h3--tab;
+    line-height: $line-height-h3--tab;
+  }
+
+  @include media("<mob") {
+    font-size: $font-size-h3--mob;
+    line-height: $line-height-h3--mob;
+  }
+}
+
+
+// Heading h4
+// ====================================================
+$font-size-h4: 2.0rem !default;
+$line-height-h4: 2.8rem !default;
+// ------ mob -----------------------------------------
+$font-size-h4--mob: $font-size--mob !default;
+$line-height-h4--mob: $line-height--mob !default;
+// ----------------------------------------------------
+@mixin font-h4() {
+  font-size: $font-size-h4;
+  line-height: $line-height-h4;
+
+  @include media("<mob") {
+    font-size: $font-size-h4--mob;
+    line-height: $line-height-h4--mob;
+  }
+}
+
+
+// Heading h5
+// ====================================================
+$font-size-h5: $font-size !default;
+$line-height-h5: $line-height !default;
+// ----------------------------------------------------
+@mixin font-h5() {
+  font-size: $font-size-h5;
+  line-height: $line-height;
+}
+
+
+// Heading h6
+// ====================================================
+$font-size-h6: round-float($font-size * 0.70, 1) !default;
+$line-height-h6: round-float($line-height * 0.95, 1) !default;
+
+@mixin font-h6() {
+  font-size: $font-size-h6;
+  line-height: $line-height-h6;
+}
+
+
+// Spaces
+// ====================================================
+$bottom-space: $line-height !default;
+$bottom-section: round-float($line-height * 1.5, 1) !default;
+// ------ mob -----------------------------------------
+$bottom-space--mob: $line-height--mob !default;
+$bottom-section--mob: round-float($line-height--mob * 1.5, 1) !default;
+
+
+// Colors
+// ====================================================
+$link-color: #007bff !default;
+$focus-color: #0080ff !default;
+$success-color: #28a745 !default;
+$error-color: #dc3545 !default;
+$info-color: #17a2b8 !default;
+$warning-color: #ffc107 !default;
+$light-color: #f8f9fa !default;
+$dark-color: #343a40 !default;
+// ----------------------------------------------------
+$base-color: #ee6e73 !default;
+$base-color-alt: invert($base-color) !default;
+// ----------------------------------------------------
+$highlight-color: $base-color !default
+$highlight-color--hover: scale-color($highlight-color, $saturation: 100%) !default
+// ----------------------------------------------------
+$bg-color: #fff !default;
+$bg-color-alt: #f3f3f3 !default;
+// ----------------------------------------------------
+$text-color: #262626 !default;
+$text-color-muted: #6c757d !default;
+$text-color-light: #ccc !default;
+// ----------------------------------------------------
+$title-color: #ee6e73 !default;
+// ----------------------------------------------------
+$border-color: #ccc !default;
+// ----------------------------------------------------
+$mark-color: $info-color !default;
+
+
+// Layout page
+// ====================================================
+// Минимальная ширина сайта
+$layout-page-min-width: 32rem !default;
+// Максимальная ширина сайта
+$layout-page-max-width: 192rem !default;
+// Отступы для всего сайта
+$layout-page-space: 3rem 4rem !default;
+$layout-page-space--tab: 2.6rem 2rem !default;
+$layout-page-space--mob: 1.3rem 1rem !default;
+
+
+// Layout text
+// ====================================================
+// Ширина текстового блока
+$layout-text-width: 80rem !default;
+// Отступы текствого блока
+$layout-text-space: #{nth($layout-page-space, 1)} #{nth($layout-page-space, 2)} !default;
+$layout-text-space--tab: #{nth($layout-page-space--tab, 1)} #{nth($layout-page-space--tab, 2)} !default;
+$layout-text-space--mob: #{nth($layout-page-space--mob, 1)} #{nth($layout-page-space--mob, 2)} !default;
+
+
+// Layout flood
+// ====================================================
+// Максимальная ширина элементов выходящих за пределы текста
+$layout-flood-width: 110rem !default;
+
+
+// Layout form
+// ====================================================
+// Максимальная ширина блока форм
+$layout-form-width: 48rem !default;
+
+
+// Inner spaces
+// ====================================================
+// Внутренние отступы
+$grid-space: 2.8rem 3rem !default;
+
+
+// Buttons
+// ====================================================
+$btn-height: 5rem !default;
+$btn-bg-color: $highlight-color !default;
+$btn-bg-hover-color: $highlight-color--hover !default;
+$btn-text-color: white !default;
+$btn-disabled-color: #ced4da !default;
+
+@mixin btn-disabled() {
+  cursor: default !important;
+  color: white !important;
+  border-color: $btn-disabled-color !important;
+  background-color: $btn-disabled-color !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
+
+
+// ====================================================
+// FORM ELEMENTS
+// ====================================================
+
+// Form elements media query
+// ====================================================
+$form-media--mob: '<mob' !default;
+
+
+// Form elements external indents
+// ====================================================
+$form-bottom-space: 3rem !default;
+// ------ mob -----------------------------------------
+$form-bottom-space--mob: 2.5rem !default;
+
+// Form elements vertical space mixin
+// ----------------------------------------------------
+@mixin form-def-space {
+  margin: 0 0 $form-bottom-space;
+}
+
+// ------ mob -----------------------------------------
+@mixin form-def-space--mob {
+  margin: 0 0 $form-bottom-space--mob;
+}
+
+
+// ====================================================
+// INPUT
+// ====================================================
+
+// Form elements colors scheme
+// ====================================================
+$form-def-text-color: $text-color !default;
+$form-def-placeholder-color: lighten($form-def-text-color, 65%) !default;
+$form-def-bg-color: #fff !default;
+$form-def-border-color: lighten($form-def-text-color, 70%) !default;
+// ----------------------------------------------------
+$form-def-border-color--focus: darken($form-def-border-color, 20%) !default;
+// ----------------------------------------------------
+$form-error-color: $error-color !default;
+$form-success-color: $success-color !default;
+// ----------------------------------------------------
+$form-text-color--disabled: #ced4da !default;
+$form-bg-color--disabled: #e9ecef !default;
+$form-border-color--disabled: #ced4da !default;
+
+
+// Form elements disabled mixin
+// ====================================================
+@mixin forms-disabled {
+  cursor: default !important;
+  color: $form-text-color--disabled !important;
+  background-color: $form-bg-color--disabled !important;
+  border-color: $form-border-color--disabled !important;
+  box-shadow: none !important;
+}
+
+
+// Form elements fonts styles
+// ====================================================
+$form-def-font-size: 1.6rem !default;
+$form-def-line-height: 2.4rem !default;
+$form-def-letter-spacing: null !default;
+// ------ mob -----------------------------------------
+$form-def-font-size--mob: 1.4rem !default;
+$form-def-line-height--mob: 1.8rem !default;
+$form-def-letter-spacing--mob: null !default;
+
+
+// Form elements layout
+// ====================================================
+$form-def-height: 4.8rem !default;
+$form-def-border-width: 1px !default;
+$form-def-space-v: round-float(($form-def-height - $form-def-line-height) / 2 - px-to-rem($form-def-border-width), 1) !default; // Следить, чтобы разница между высотой и межстрочным интервалом была четной
+$form-def-space-vt: $form-def-space-v !default;
+$form-def-space-vb: $form-def-space-v !default;
+$form-def-space-h: 1.8rem !default;
+$form-def-border-radius: 5px !default;
+// ------ mob -----------------------------------------
+$form-def-height--mob: 4.2rem !default;
+$form-def-border-width--mob: 1px !default;
+$form-def-space-v--mob: round-float(($form-def-height--mob - $form-def-line-height--mob) / 2 - px-to-rem($form-def-border-width--mob), 1) !default; // Следить, чтобы разница между высотой и межстрочным интервалом была четной
+$form-def-space-vt--mob: $form-def-space-v--mob !default;
+$form-def-space-vb--mob: $form-def-space-v--mob !default;
+$form-def-space-h--mob: 1.4rem !default;
+$form-def-border-radius--mob: 5px !default;
+
+
+// Input common styles mixin
+// ====================================================
+@mixin input-common {
+  display: block;
+  position: relative;
+  height: $form-def-height;
+  width: 100%;
+  padding: $form-def-space-vt $form-def-space-h $form-def-space-vb $form-def-space-h;
+  background-color: $form-def-bg-color;
+  box-shadow: none;
+  @if $form-def-border-width {
+    border: $form-def-border-width solid $form-def-border-color;
+  }
+}
+
+// ------ mob -----------------------------------------
+@mixin input-common--mob {
+  height: $form-def-height--mob;
+  padding: $form-def-space-vt--mob $form-def-space-h--mob $form-def-space-vb--mob $form-def-space-h--mob;
+  border-radius: $form-def-border-radius--mob;
+  @if $form-def-border-width--mob {
+    border-width: $form-def-border-width--mob;
+  }
+}
+
+// Input font styles mixin
+// ====================================================
+@mixin input-font {
+  @include font-normal;
+  font-size: $form-def-font-size;
+  line-height: $form-def-line-height;
+  color: $form-def-text-color;
+  @if $form-def-letter-spacing {
+    letter-spacing: $form-def-letter-spacing;
+  }
+}
+
+// ------ mob -----------------------------------------
+@mixin input-font--mob {
+  font-size: $form-def-font-size--mob;
+  line-height: $form-def-line-height--mob;
+  @if $form-def-letter-spacing--mob {
+    letter-spacing: $form-def-letter-spacing--mob;
+  }
+}
+
+
+// ====================================================
+// SELECT
+// ====================================================
+
+// По умалчанию стили селекта аналогинчны стилям полей ввода
+
+// Select colors scheme
+// ====================================================
+$select-text-color: $form-def-text-color !default;
+$select-placeholder-color: $form-def-placeholder-color !default;
+$select-bg-color: $form-def-bg-color !default;
+$select-border-color: $form-def-border-color !default;
+// ----------------------------------------------------
+$select-border-color--focus: $form-def-border-color--focus !default;
+
+
+// Select fonts styles
+// ====================================================
+$select-font-size: $form-def-font-size !default;
+$select-line-height: $form-def-line-height !default;
+$select-letter-spacing: $form-def-letter-spacing !default;
+// ------ mob -----------------------------------------
+$select-font-size--mob: $form-def-font-size--mob !default;
+$select-line-height--mob: $form-def-line-height--mob !default;
+$select-letter-spacing--mob: $form-def-letter-spacing--mob !default;
+
+
+// Select layout
+// ====================================================
+$select-height: $form-def-height !default;
+$select-border-width: $form-def-border-width !default;
+$select-space-v: round-float(($select-height - $select-line-height) / 2 - px-to-rem($select-border-width), 1) !default; // Следить, чтобы разница между высотой и межстрочным интервалом была четной
+$select-space-vt: $select-space-v !default;
+$select-space-vb: $select-space-v !default;
+$select-space-h: $form-def-space-h - 0.4 !default;
+$select-border-radius: $form-def-border-radius !default;
+$select-arrow-width: 4.0rem !default;
+// ------ mob -----------------------------------------
+$select-height--mob: $form-def-height--mob !default;
+$select-border-width--mob: $form-def-border-width--mob !default;
+$select-space-v--mob: round-float(($select-height--mob - $select-line-height--mob) / 2 - px-to-rem($select-border-width), 1) !default; // Следить, чтобы разница между высотой и межстрочным интервалом была четной
+$select-space-vt--mob: $select-space-v--mob !default;
+$select-space-vb--mob: $select-space-v--mob !default;
+$select-space-h--mob: $form-def-space-h--mob - 0.4 !default;
+$select-border-radius--mob: $form-def-border-radius--mob !default;
+$select-arrow-width--mob: 4.0rem !default;
+
+
+// Select common styles mixin
+// ====================================================
+@mixin select-common() {
+  display: block;
+  position: relative;
+  height: $select-height;
+  width: 100%;
+  padding: $select-space-vt $select-arrow-width $select-space-vb $select-space-h;
+  background: $select-bg-color;
+  border: #{$select-border-width} solid #{$select-border-color};
+  border-radius: 5px;
+  box-shadow: none;
+  text-indent: 0;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+// ------ mob -----------------------------------------
+@mixin select-common--mob() {
+  height: $select-height--mob;
+  padding: $select-space-vt--mob $select-arrow-width--mob $select-space-vb--mob $select-space-h--mob;
+  border: #{$select-border-width--mob} solid #{$select-border-color};
+}
+
+
+// Select font styles mixin
+// ====================================================
+@mixin select-font {
+  @include input-font;
+}
+
+// ------ mob -----------------------------------------
+@mixin select-font--mob {
+  @include input-font--mob;
+}
+
+
+// ====================================================
+// FORM STATES
+// ====================================================
+@mixin form-success {
+  color: $form-success-color;
+  border-color: $form-success-color;
+}
+
+@mixin form-error {
+  color: $form-error-color;
+  border-color: $form-error-color;
+}
+
+@mixin filled {
+  color: slateblue;
+  border-color: slateblue;
+}
+
+@mixin focused {
+  border-color: $form-def-border-color--focus;
+}
+
+
+// Form validate feedback
+// ====================================================
+$validate-feedback-font-size: 1.2rem;
+$validate-feedback-line-height: 1.6rem;
+$validate-feedback-height: 2.2rem;
+
+
+// Animation
+// ====================================================
+$animation-speed: 0.2s !default;
+$animation-speed-mouseleave: 0.35s !default;
+
+
+// Header
+// ====================================================
+
+
+// Footer
+// ====================================================

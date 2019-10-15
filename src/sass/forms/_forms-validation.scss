@@ -1,0 +1,51 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+// Validation feedback
+// ====================================================
+
+.error-feedback, .success-feedback {
+  float: left;
+  position: relative;
+  width: 100%;
+  margin-top: -#{$form-bottom-space};
+  $space: round-float(($validate-feedback-height - $validate-feedback-line-height) / 2, 1);
+  padding: #{$space} 0;
+  font-size: $validate-feedback-font-size;
+  line-height: $validate-feedback-line-height;
+  letter-spacing: normal;
+  display: none;
+
+  @include media("<mob") {
+    margin-top: -#{$form-bottom-space--mob};
+  }
+}
+
+.error-feedback {
+  color: $form-error-color;
+
+  // Нужно выбрать только ближайший элемент ошибки формы (нельзя использовать ~)
+  form .error + &,
+  form .error + .select2 + &,
+  form .error + .select-arrow + &,
+  form .error + .success-feedback + &,
+  form .error + .select2 + .success-feedback + &,
+  form .error + .select-arrow + .success-feedback + & {
+    display: block;
+  }
+}
+
+.success-feedback {
+  color: $form-success-color;
+
+  // Нужно выбрать только ближайший элемент подтверждения формы (нельзя использовать ~)
+  form .success + &,
+  form .success + .select2 + &,
+  form .success + .select-arrow + &,
+  form .success + .error-feedback + &,
+  form .success + .select2 + .error-feedback + &,
+  form .success + .select-arrow + .error-feedback + & {
+    display: block;
+  }
+}

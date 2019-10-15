@@ -1,0 +1,15 @@
+{
+  "name": "Site",
+  "short_name": "Site",
+  "description": "Site",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    }
+  ]
+}

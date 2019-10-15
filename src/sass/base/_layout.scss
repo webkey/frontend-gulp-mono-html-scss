@@ -1,0 +1,161 @@
+@import "../utils/variables";
+@import "../utils/mixins";
+@import "../../../node_modules/include-media/dist/include-media";
+
+html {
+  font-size: 62.5%;
+
+  // Блокировать скролла
+  &.css-scroll-fixed:not(.open-only-mob) {
+    @include scroll-blocked;
+  }
+
+  // Не блокировать скролл, если есть класс open-only-mob
+  &.css-scroll-fixed.open-only-mob {
+    @include media("<tab") {
+      @include scroll-blocked;
+    }
+  }
+}
+
+body {
+  min-width: $layout-page-min-width;
+  @include font-normal;
+  font-size: $font-size;
+  line-height: $line-height;
+  color: $text-color;
+  background: $bg-color url(../../img/empty.png) no-repeat left top fixed;
+
+  // ------ mob -----------------------------------------
+  @include media('<mob') {
+    font-size: $font-size--mob;
+    line-height: $line-height--mob;
+  }
+}
+
+
+// Layout PAGE
+// ====================================================
+// Отступы по бокам страницы
+// Отступы по бокам основных элементов на странице
+.layout-page-spaces {
+  $intend: nth($layout-page-space, 2);
+  padding: {
+    left: $intend;
+    right: $intend;
+  };
+
+  // ------ tab -----------------------------------------
+  @include media('<tab') {
+    $intend: nth($layout-page-space--tab, 2);
+    padding: {
+      left: $intend;
+      right: $intend;
+    };
+  }
+
+  // ------ mob -----------------------------------------
+  @include media('<mob') {
+    $intend: nth($layout-page-space--mob, 2);
+    padding: {
+      left: $intend;
+      right: $intend;
+    };
+  }
+}
+
+// Выравнивание сайта и его максимальная ширина
+// Выравнивание основных элементов и их максимальная ширина
+.layout-page {
+  box-sizing: content-box;
+  max-width: $layout-page-max-width;
+  margin: {
+    left: auto;
+    right: auto;
+  };
+}
+
+
+// Layout TEXT
+// ====================================================
+// Отступы по бокам текстовых элементов
+.layout-text-spaces {
+  $intend: nth($layout-text-space, 2);
+  padding: {
+    left: $intend;
+    right: $intend;
+  };
+
+  // ------ tab -----------------------------------------
+  @include media('<tab') {
+    $intend: nth($layout-text-space--tab, 2);
+    padding: {
+      left: $intend;
+      right: $intend;
+    };
+  }
+
+  // ------ mob -----------------------------------------
+  @include media('<mob') {
+    $intend: nth($layout-text-space--mob, 2);
+    padding: {
+      left: $intend;
+      right: $intend;
+    };
+  }
+}
+
+// Выравнивание текстовых элементов и их максимальная ширина
+.layout-text {
+  box-sizing: content-box;
+  max-width: $layout-text-width;
+  margin: {
+    left: auto;
+    right: auto;
+  };
+}
+
+
+// Layout FLOOD
+// ====================================================
+// Выравнивание элементов выходящих за пределы текста
+.layout-flood {
+  box-sizing: content-box;
+  max-width: $layout-flood-width;
+  margin: {
+    left: auto;
+    right: auto;
+  };
+}
+
+
+// Layout FORM
+// ====================================================
+// Выравнивание блока форм
+.layout-form {
+  box-sizing: content-box;
+  max-width: $layout-form-width;
+}
+
+
+// Footer at bottom
+// ====================================================
+// Прижать футер к низу страницы
+// На html, body необходимо задать высоту 100% (Задано в reset.sass)
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  flex-shrink: 0;
+}
+
+.main {
+  flex-shrink: 0;
+}
+
+.footer {
+  flex-shrink: 0;
+  margin-top: auto;
+}

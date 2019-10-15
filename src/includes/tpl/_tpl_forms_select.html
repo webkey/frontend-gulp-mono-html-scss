@@ -1,0 +1,19 @@
+<label for="@@id">@@label <mark>*</mark></label>
+<select
+    class="form-def@@if(context.class){ @@class} field-js"
+    id="@@id"
+    name="@@id"
+    @@if(context.disabled){ disabled}
+    required
+>
+  <!--Important! The first element must have a value of ""-->
+  <option value="">- Choose option -</option>
+  <option value="1">Option 1</option>
+  <option value="2"@@if(context.selected){ selected}>Option 2</option>
+  <option value="3">Option 3 we have to add a lot of text for testing to make sure the correctness of cutting this text</option>
+  <option value="4">Option 4</option>
+  <option value="5">Option 5</option>
+  <option value="6">Option 6</option>
+  <option value="7">Option 7</option>
+  <option value="8">Option 8</option>
+</select>

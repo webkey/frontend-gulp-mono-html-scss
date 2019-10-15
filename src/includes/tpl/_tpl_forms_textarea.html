@@ -1,0 +1,10 @@
+@@if(context.label){<label for="@@id">@@label <mark>*</mark></label>}
+<textarea
+    class="form-def@@if(context.class){ @@class} field-js"
+    id="@@id"
+    name="@@id"
+    @@if(context.placeholder){ placeholder="@@placeholder" }
+    @@if(!context.placeholder){ placeholder="Some placeholder" }
+    @@if(context.disabled){ disabled}
+    required
+>@@if(context.value){@@value}</textarea>
