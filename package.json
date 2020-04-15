@@ -36,7 +36,6 @@
     "gulp-sourcemaps": "^2.4.0",
     "gulp-string-replace": "^0.4.0",
     "gulp-strip-comments": "^2.5.2",
-    "gulp-strip-css-comments": "^2.0.0",
     "gulp-uglifyjs": "^0.6.2",
     "imagemin-pngquant": "^5.0.0",
     "include-media": "^1.4.9",

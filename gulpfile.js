@@ -24,7 +24,6 @@ var gulp             = require('gulp'),
     config           = require('./modernizr-config'),
     replace          = require('gulp-string-replace'),
     strip            = require('gulp-strip-comments'),
-    stripCssComments = require('gulp-strip-css-comments'),
     removeEmptyLines = require('gulp-remove-empty-lines'),
     revts            = require('gulp-rev-timestamp'),
     beautify         = require('gulp-beautify'),
@@ -34,7 +33,19 @@ var path = {
   'dist': 'dist'
 };
 
-gulp.task('htmlCompilation', function () {
+gulp.task('html:compilation', function () {
+  return gulp.src(['!app/_tpl_*.html', 'app/*.html'])
+      .pipe(plumber())
+      .pipe(fileinclude({
+        basepath: 'app',
+        filters: {
+          markdown: markdown.parse
+        }
+      }))
+      .pipe(gulp.dest('./' + path.dist));
+});
+
+gulp.task('html:production', function () {
   return gulp.src(['!app/_tpl_*.html', 'app/*.html'])
       .pipe(plumber())
       .pipe(fileinclude({
@@ -51,7 +62,7 @@ gulp.task('htmlCompilation', function () {
       .pipe(gulp.dest('./' + path.dist));
 });
 
-gulp.task('html:buildAllPages', ['htmlCompilation'], function () {
+gulp.task('html:buildAllPages', ['html:compilation'], function () {
   var pref = "all-pages";
   return gulp.src(['!app/all-pages.html', '!app/__*.html', '!app/~*.html', '!app/_tpl_*.html', '!app/_temp_*.html', './app/*.html'])
       .pipe(index({
@@ -72,7 +83,7 @@ gulp.task('html:buildAllPages', ['htmlCompilation'], function () {
       .pipe(gulp.dest('./' + path.dist));
 });
 
-gulp.task('sassCompilation', function () {
+gulp.task('sass:compilation', function () {
   return gulp.src('app/sass/**/*.+(scss|sass)')
       .pipe(plumber())
       .pipe(sourcemaps.init())
@@ -92,7 +103,7 @@ gulp.task('sassCompilation', function () {
       .pipe(gulp.dest('./' + path.dist + '/css'))
 });
 
-gulp.task('sassCompilationProduction', function () {
+gulp.task('sass:production', function () {
   return gulp.src('app/sass/**/*.+(scss|sass)')
       .pipe(plumber())
       .pipe(sass({
@@ -121,7 +132,7 @@ const cssLibs = [
   'node_modules/select2/dist/css/select2.min.css'
 ];
 
-gulp.task('mergeCssLibs', function () {
+gulp.task('cssLibs:merge', function () {
   if(cssLibs.length) {
     return gulp.src(cssLibs)
         .pipe(concatCss(path.dist + "/css/libs.min.css", {rebaseUrls: false}))
@@ -129,7 +140,7 @@ gulp.task('mergeCssLibs', function () {
   }
 });
 
-gulp.task('mergeCssLibsProduction', function () {
+gulp.task('cssLibs:production', function () {
   if(cssLibs.length) {
     return gulp.src(cssLibs)
         .pipe(concatCss(path.dist + "/css/libs.min.css", {rebaseUrls: false}))
@@ -143,7 +154,7 @@ gulp.task('mergeCssLibsProduction', function () {
   }
 });
 
-gulp.task('createCustomModernizr', function (done) {
+gulp.task('modernizr', function (done) {
   modernizr.build(config, function (code) {
     fs.writeFile('app/js/modernizr.min.js', code, done);
   });
@@ -155,7 +166,7 @@ const jsLibs = [
   'node_modules/select2/dist/js/i18n/ru.js',
   'node_modules/object-fit-images/dist/ofi.min.js'
 ];
-gulp.task('mergeScriptsLibs', ['copyJqueryToJs'], function () {
+gulp.task('jsLibs:merge', ['copyJqueryToJs'], function () {
   if(jsLibs.length) {
     return gulp.src(jsLibs)
         .pipe(concat('libs.min.js'))
@@ -174,7 +185,7 @@ gulp.task('copyJs', function () {
       .pipe(gulp.dest(path.dist + '/js'));
 });
 
-gulp.task('copyJsProduction', function () {
+gulp.task('copyJs:production', function () {
   gulp.src(['!app/js/app.min.js', 'app/js/**/*'])
       .pipe(gulp.dest(path.dist + '/js'));
 
@@ -227,9 +238,9 @@ gulp.task('browserSync', function (done) {
   done();
 });
 
-gulp.task('watch', ['browserSync', 'htmlCompilation', 'sassCompilation', 'mergeCssLibs', 'mergeScriptsLibs', 'copyFavicons', 'copyFonts', 'copyJs', 'copyImages'], function () {
-  gulp.watch(['app/*.html', 'app/20*/**/*.html', 'app/includes/**/*.svg'], ['htmlCompilation']);
-  gulp.watch('app/sass/**/*.+(scss|sass)', ['sassCompilation']);
+gulp.task('watch', ['browserSync', 'html:compilation', 'sass:compilation', 'cssLibs:merge', 'jsLibs:merge', 'copyFavicons', 'copyFonts', 'copyJs', 'copyImages'], function () {
+  gulp.watch(['app/*.html', 'app/20*/**/*.html', 'app/includes/**/*.svg'], ['html:compilation']);
+  gulp.watch('app/sass/**/*.+(scss|sass)', ['sass:compilation']);
   gulp.watch('app/favicons/**/*', ['copyFavicons']);
   gulp.watch('app/fonts/**/*', ['copyFonts']);
   gulp.watch('app/js/**/*', ['copyJs']);
@@ -237,12 +248,13 @@ gulp.task('watch', ['browserSync', 'htmlCompilation', 'sassCompilation', 'mergeC
 });
 
 gulp.task('default', ['watch']);
+gulp.task('develop', ['cleanDist', 'default']);
 
 /**
  * Create Production
  */
 
-gulp.task('production', ['cleanDist', 'htmlCompilation', 'sassCompilationProduction', 'mergeCssLibsProduction', 'mergeScriptsLibs', 'copyFavicons', 'copyFonts', 'copyJsProduction', 'copyImages']);
+gulp.task('production', ['cleanDist', 'html:production', 'sass:production', 'cssLibs:production', 'jsLibs:merge', 'copyFavicons', 'copyFonts', 'copyJs:production', 'copyImages']);
 
 gulp.task('cleanDist', function () {
   return del.sync([path.dist + '/']);
